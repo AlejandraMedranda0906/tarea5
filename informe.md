@@ -1,148 +1,121 @@
 # TENDENCIAS TECNOLOGICAS
 
 ## 1. Titulo
-TAS4 - Red de contenedores mysql y phpmyadmin
+TAS5 - Wordpres con docker
 ## 2. Tiempo de duración
 El tiempo de duración fue de 5 horas aproximadamente para el desarrollo de la práctica.
 
 ## 3. Fundamentos:
 
-En esta práctica se trabajó con contenedores Docker, comprendiendo conceptos fundamentales de redes como:
+En esta práctica se trabajó con contenedores Docker para levantar un entorno completo de gestión de contenidos con WordPress, incluyendo el sistema de gestión de bases de datos MySQL y la herramienta web de administración phpMyAdmin, todos interconectados en una red personalizada.
 
-Dirección IP: Identificador único para la comunicación entre dispositivos o contenedores en una red.
-Puerto: Punto de acceso para diferenciar múltiples servicios en un mismo contenedor o máquina.
-Red personalizada en Docker: Permite la comunicación controlada y segura entre contenedores.
+Docker permite crear entornos aislados mediante contenedores, lo que facilita la portabilidad, escalabilidad y configuración eficiente de servicios como servidores web, gestores de contenido y bases de datos (Docker Inc., 2024). A través de la creación de una red personalizada en Docker, es posible establecer una comunicación segura entre contenedores, por ejemplo, entre el servidor WordPress y el contenedor de base de datos MySQL.
 
-MySQL es un sistema de gestión de bases de datos relacional (RDBMS), ampliamente utilizado para almacenar y administrar información estructurada. En esta práctica, se utiliza MySQL dentro de un contenedor Docker para gestionar bases de datos de prueba.
+WordPress es un sistema de gestión de contenidos (CMS) de código abierto ampliamente utilizado para la creación de sitios web y blogs. Su implementación en contenedores Docker permite un despliegue modular y replicable del sistema (WordPress.org, 2024).
 
-phpMyAdmin es una herramienta basada en web que permite la administración de bases de datos MySQL a través de una interfaz gráfica amigable, facilitando la creación, modificación y eliminación de bases de datos y registros.
+MySQL, por su parte, es un sistema de gestión de bases de datos relacional que se encarga del almacenamiento y administración de datos estructurados (MySQL Documentation Team, 2024). En esta práctica se utiliza para alojar la base de datos de WordPress.
 
-Esta práctica tiene dos enfoques:
-- Crear una red personalizada en Docker para permitir la comunicación entre contenedores.
+phpMyAdmin se incorpora como una interfaz web para gestionar MySQL de forma visual, permitiendo consultar, crear y modificar tablas y registros fácilmente (phpMyAdmin, 2024).
 
-- Implementar y conectar dos servicios (MySQL y phpMyAdmin) utilizando dicha red
+La práctica se enfoca en tres aspectos fundamentales:
 
-Además, se utilizó MySQL que es un sistema de gestión de bases de datos relacional y phpMyAdmin que es una herramienta web para administrar bases de datos MySQL de forma gráfica.
+Crear una red personalizada en Docker para interconectar contenedores.
 
-El objetivo es crear una red personalizada en Docker para interconectar dos contenedores: uno ejecutando MySQL y otro phpMyAdmin.
+Implementar WordPress como CMS utilizando contenedores Docker.
+
+Conectar WordPress con MySQL y administrar la base de datos mediante phpMyAdmin.
+
+Esta metodología permite a los estudiantes comprender los conceptos clave de redes, persistencia de datos y gestión de servicios web usando contenedores. Además, fomenta la autonomía en la configuración de entornos profesionales de desarrollo web (Nickoloff & Kuenzli, 2019; Miell & Sayers, 2019).
 
 ## 4. Conocimientos previos.
 
 Para realizar esta practica el estudiante necesita tener claro los siguientes temas:
-- Uso de la terminal o línea de comandos
-- Manejo de navegador
-- Uso básico de Docker
-- Conceptos de redes en Docker
-- Manejo básico de bases de datos MySQL
+- Línea de comandos (CLI)
+- Navegadores web
+- Conceptos fundamentales de Docker (contenedores, volúmenes, redes)
+- Configuración y uso de MySQL
 - Uso de phpMyAdmin
-Ademas:
-- Comandos para crear redes.
-- Unir contendores a una red
-- Configurar aplicaciones
+- CMS WordPress.
+- Base de datos para CMS
+- Redes personalizadas en Docker 
+- Gestionar volúmenes de Docker
 
 ## 5. Objetivos a alcanzar
 
-- Implementar redes de contenedores en Docker para permitir la       comunicación entre aplicaciones contenerizadas.
-- Comprender los diferentes tipos de redes disponibles.
-- Crear dos contenedores, uno para MySQL y otro para phpMyAdmin, establecer una red personalizada en Docker que permita la comunicación entre ambos, 
-- Crear una base de datos de prueba usando la interfaz de phpMyAdmin.
+- Configurar manualmente los contenedores necesarios para levantar un CMS WordPress utilizando solo comandos de Docker.
+- Configurar variables de entorno en la creación de los contenedores para establecer parámetros esenciales como usuario, contraseña y nombre de la base de datos
+- Implementar redes personalizadas en Docker para permitir la comunicación segura entre los contenedores de base de datos y WordPress.
+- Gestionar volúmenes de Docker para asegurar la persistencia de datos tanto para la base de datos como para los archivos de WordPress.
 
 ## 6. Equipo necesario:
 
-- Computador con sistema operativo Windows/Linux/Mac 
-- Cuenta en docker play
-- Docker y terminal
-- Uso de phpMyAdmin
+- Computadora con sistema operativo Windows/Linux/Mac
+- Acceso a Docker Play o instalación local de Docker
+- Terminal
+- Navegador web para acceder a phpMyAdmin y WordPress
 
 
 ## 7. Material de apoyo.
 
-- Documentacion oficial de docker.
-- Documentación oficial de MySQL.
-- Documentación oficial de phpMyAdmin.
-- Guia de la asignatura.
+- Documentación oficial de Docker
+- Documentación oficial de MySQL
+- Documentación oficial de phpMyAdmin
+- Documentación oficial de WordPress
+- Guía proporcionada en la asignatura
 
 
 ## 8. Procedimiento
 
-## Parte 1: Crear dos contenedores: uno para MySQL y otro para phpMyAdmin, y establecer una red que permita la comunicación entre ambos.
+## Parte 1: Crear los contenedores necesarios para un sitio WordPress, utilizando únicamente comandos de Docker.
 
-### Paso 1:Crear un contenedor para MySQL, definiendo las credenciales necesarias.
-Luego crear una red personalizada llamada mired para permitir la comunicación entre los contenedores: 
+### Paso 1:Crear una red 
+Se crea una red personalizada de tipo bridge en Docker. Esta red permitirá que los contenedores puedan comunicarse entre sí de forma segura y controlada mediante nombres internos.
 
 <img src="00.jpg" alt="Paso1" width="800">
 
-- docker network create mired
-<img src="001.jpg" alt="Paso1" width="800">
-
-Crear el contenedor de MySQL, especificando la contraseña del usuario root y una base de datos de prueba: docker run --name mysql_server --network mired -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=prueba_db -p 3306:3306 -d mysql:latest
-Tomemos en cuenta que:
-- --name mysql_server: le pone de nombre mysql_server al contenedor.
-- --network mired: conecta este contenedor a la red que se creo.
-- -e MYSQL_ROOT_PASSWORD=1234: establece que la contraseña de root será 1234.
-- -e MYSQL_DATABASE=prueba_db: crea una base de datos llamada prueba_db.
-- -p 3306:3306: expone el puerto de MySQL para que se pueda usarlo.
-- -d mysql:latest: usa la última versión de MySQL.
-
-<img src="0001.jpg" alt="Paso1" width="800">
-
-### Paso 2: Crear un contenedor para phpMyAdmin, configurando las credenciales.
-
-Crear el contenedor para phpMyAdmin: 
-docker run --name phpmyadmin_server --network mired -e PMA_HOST=mysql_server -p 8080:80 -d phpmyadmin/phpmyadmin
-Tomemos en cuenta que:
-- --name phpmyadmin_server: nombra al contenedor phpmyadmin_server.
-- --network mired: lo conecta a la red mired.
-- -e PMA_HOST=mysql_server: dice que el servidor de base de datos es el contenedor mysql_server.
-- -p 8080:80: hace que phpMyAdmin esté accesible en el navegador entrando a localhost:8080.
+### Paso 2:Crear un volumen para wordpress
+Se genera un volumen persistente para almacenar los archivos del CMS WordPress. Este volumen asegura que los datos no se pierdan si el contenedor se reinicia o elimina.
 
 <img src="2.jpg" alt="Paso2" width="800">
 
-### Paso 3: Crear una red personalizada en Docker que permita la comunicación entre ambos contenedores.
+### Paso 3: Crear un volumen para mysql
+Se crea un volumen dedicado para almacenar los datos de la base de datos MySQL. Este volumen garantiza la persistencia de las tablas, configuraciones y registros.
 
-Crear el contenedor de phpMyAdmin y conectarlo a la misma red, indicando el servidor de MySQL: docker run --name phpmyadmin_server --network mired -e PMA_HOST=mysql_server -p 8080:80 -d phpmyadmin/phpmyadmin
-Tomemos en cuenta que:
-- PMA_HOST=mysql_server establece el contenedor de MySQL como host.
-- -p 8080:80 expone phpMyAdmin en el puerto 8080 de la máquina local.
-
-<img src="3.jpg" alt="Paso3" width="800">
-
-### Paso 4: Conectar ambos contenedores a la red creada.
-
-Al crear los contenedores usando el parámetro --network mired, ambos ya están conectados automáticamente a la misma red. Esto permite visualizar los detalles de la red mired.
+### Paso 4: Crear un contenedor para mysql
+Se levanta un contenedor con la imagen oficial de MySQL y se asocian las variables de entorno necesarias para su configuración. También se vincula al volumen creado previamente y se conecta a la red personalizada.
 
 <img src="4.jpg" alt="Paso4" width="800">
 
-### Paso 5: Configurar la conexión entre phpMyAdmin y MySQL, y crear una base de datos de prueba desde la interfaz de phpMyAdmin.
-
-Abrir un navegador web y acceder a http://localhost:8080.
-En la pantalla de inicio de phpMyAdmin, conectarse usando:
-- Servidor: mysql_server
-- Usuario: root
-- Contraseña: 1234
-Una vez dentro de phpMyAdmin, verificar que prueba_db se haya creado correctamente.
-Crear una tabla de prueba para confirmar que la conexión entre phpMyAdmin y MySQL funciona correctamente.
+### Paso 5: Crear un contenedor para phpmyadmin
+Se ejecuta un contenedor con phpMyAdmin para administrar gráficamente la base de datos MySQL desde el navegador. Este contenedor también se conecta a la red personalizada y se vincula con el contenedor de la base de datos.
 
 <img src="5.jpg" alt="Paso5" width="800">
 
+### Paso 6: Crear un contenedor de wordpress
+Se levanta el contenedor que contiene WordPress y se configura para conectarse con la base de datos ya existente. El contenedor se une a la red, se le asigna un volumen para los archivos y se exponen los puertos necesarios para su acceso web.
+
+<img src="5.jpg" alt="Paso6" width="800">
+
 ## 9. Resultados esperados:
 
-- Contenedores conectados correctamente mediante la red personalizada mired.
-- Acceso exitoso a MySQL mediante phpMyAdmin usando la IP de red interna.
-- Creación de bases de datos y tablas usando phpMyAdmin.
-- Se fortalecen los conocimientos en creación de redes, administración de contenedores y gestión básica de bases de datos.
+- Los contenedores de WordPress, MySQL y phpMyAdmin estarán correctamente conectados mediante la red personalizada.
+- Se podrá acceder a WordPress desde el navegador y completar su configuración inicial.
+- Se podrá gestionar la base de datos WordPress desde phpMyAdmin.
+- Se comprueba la persistencia de los datos en caso de reinicio de los contenedores gracias al uso de volúmenes.
+- Se fortalece el entendimiento práctico de la implementación de servicios web usando Docker.
 
 ## 10. Bibliografía
 
-- Docker Inc. (2024). Docker Documentation. Recuperado de: https://docs.docker.com
+-Docker Inc. (2024). Docker documentation. https://docs.docker.com
 
-- MySQL Documentation Team. (2024). MySQL 8.0 Reference Manual. Recuperado de: https://dev.mysql.com/doc/
+- Miell, I., & Sayers, A. (2019). Docker in practice (2nd ed.). Manning Publications.
 
-- phpMyAdmin. (2024). phpMyAdmin Documentation. Recuperado de: https://docs.phpmyadmin.net/ 
+- MySQL Documentation Team. (2024). MySQL 8.0 reference manual. https://dev.mysql.com/doc/
 
-- Nickoloff, J., & Kuenzli, S. (2019). Docker in Action. Simon and Schuster.
+- Nickoloff, J., & Kuenzli, S. (2019). Docker in action (2nd ed.). Manning Publications.
 
-- Miell, I., & Sayers, A. (2019). Docker in Practice. Simon and Schuster.
+- phpMyAdmin. (2024). phpMyAdmin documentation. https://docs.phpmyadmin.net/
 
+- WordPress.org. (2024). WordPress documentation. https://wordpress.org/support/
 
 
